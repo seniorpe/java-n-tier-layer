@@ -14,4 +14,7 @@ public interface PetRepository extends ReactiveCrudRepository<Pet, Long> {
 
     @Query("SELECT COUNT(*) FROM pets WHERE is_active = true")
     Mono<Long> countByIsActiveTrue();
+
+    @Query("SELECT EXISTS(SELECT 1 FROM pets WHERE name = :name AND species = :species AND is_active = true)")
+    Mono<Boolean> existsByNameAndSpeciesAndIsActiveTrue(String name, String species);
 }

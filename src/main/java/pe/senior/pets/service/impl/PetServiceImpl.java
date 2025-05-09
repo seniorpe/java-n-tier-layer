@@ -5,18 +5,33 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pe.senior.pets.controller.dto.PageResponse;
+import pe.senior.pets.controller.dto.PetRequest;
 import pe.senior.pets.controller.dto.PetResponse;
 import pe.senior.pets.respository.PetRepository;
+import pe.senior.pets.respository.model.Pet;
 import pe.senior.pets.service.PetService;
 import pe.senior.pets.service.mapper.PetMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class PetServiceImpl implements PetService {
     private final PetRepository petRepository;
     private final PetMapper petMapper;
+
+    @Override
+    public Mono<PetResponse> createPet(PetRequest petRequest) {
+        Pet pet = petMapper.toPetEntity(petRequest);
+        pet.setIsActive(true);
+        pet.setCreatedAt(LocalDateTime.now());
+        pet.setUpdatedAt(LocalDateTime.now());
+
+        return petRepository.save(pet)
+                .map(petMapper::toPetResponse);
+    }
 
     @Override
     public Flux<PetResponse> getAllPets() {
