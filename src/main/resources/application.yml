@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: pet-management-service
+  r2dbc:
+    url: r2dbc:mysql://${DB_HOST:host.docker.internal}:${DB_PORT:3306}/${DB_NAME:pets_db}?sslMode=DISABLED
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+    pool:
+      initial-size: 5
+      max-size: 20
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: America/Lima
+
+server:
+  port: ${SERVER_PORT:8080}
+
+logging:
+  level:
+    root: INFO
+    pe.senior.pets: DEBUG
+    org.springframework.r2dbc: INFO
+    io.r2dbc.mysql: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

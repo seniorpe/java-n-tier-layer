@@ -1,0 +1,20 @@
+services:
+  pet-service:
+    build: .
+    container_name: pet-service-container
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_PORT=3306
+      - DB_NAME=pets_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+      - SERVER_PORT=8080
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - pet-network
+
+networks:
+  pet-network:
+    driver: bridge

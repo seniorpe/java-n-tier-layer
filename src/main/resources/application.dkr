@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: pet-management-service
+  r2dbc:
+    url: r2dbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:pets_db}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+    pool:
+      initial-size: 5
+      max-size: 20
+  flyway:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:pets_db}
+    user: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: America/Lima
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    root: INFO
+    pe.senior.pets: DEBUG
+    org.springframework.r2dbc: INFO
+    io.r2dbc.mysql: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
